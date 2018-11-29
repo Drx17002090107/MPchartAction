@@ -1,17 +1,27 @@
 package com.example.machenike.mpchartaction;
 
 
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.Map;
 
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 
 public class HttpUtil {
+
+    public static final MediaType JSON = MediaType.parse("application/json;charset=utf-8");
+
     public static void sendHttpRequest(final String address, final HttpCallbackListener listener) {
         new Thread(new Runnable() {
             @Override
@@ -50,14 +60,15 @@ public class HttpUtil {
         }).start();
     }
 
-    public static void sendOkHttpRequest(final String address, final okhttp3.Callback callback) {
+    public static void sendOkHttpRequest( String address,  okhttp3.Callback callback) {
         OkHttpClient client = new OkHttpClient();
+        Map<String,String> map = new HashMap<>();
+        map.put("aa","co2");
         Request request = new Request.Builder()
                 .url(address)
+                .post(RequestBody.create(JSON,new JSONObject(map).toString()))
                 .build();
         client.newCall(request).enqueue(callback);
     }
-    public static void getData(String name, Map map){
 
-    }
 }
